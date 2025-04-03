@@ -60,6 +60,13 @@ background-image: url("https://i.pinimg.com/originals/a7/9b/90/a79b9072967fefbeb
   background-color: #a8c3b0;
 }
 
+.fade-out {
+  animation: fadeOut 1s forwards;
+}
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
 
 
 #pogaSakt {
@@ -425,6 +432,24 @@ border: 1px solid;
   box-shadow: 0px 2px 6px rgba(255, 123, 0, 0.3);
 }
 
+#enemySpawnEffect {
+  position: fixed;
+  width: 150px;
+  height: 100px;
+  top: 145px;
+  left: 140px;
+  pointer-events: none;
+  z-index: 10;
+  border-radius: 10px;
+  background: radial-gradient(rgba(255,255,255,0.4), transparent);
+  animation: pulse 0.5s ease-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.2); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
 
 #laukums2{
 border: 1px solid;
@@ -572,3 +597,117 @@ border: 2px solid #000000;
   animation: fadeIn 1s ease-in-out, glow 2s infinite alternate;
 }
 
+@keyframes hurt {
+  0% { background-color: transparent; transform: translateX(0); }
+  25% { background-color: rgba(255, 0, 0, 0.2); transform: translateX(-2px); }
+  50% { background-color: rgba(255, 0, 0, 0.4); transform: translateX(2px); }
+  75% { background-color: rgba(255, 0, 0, 0.2); transform: translateX(-2px); }
+  100% { background-color: transparent; transform: translateX(0); }
+}
+
+.hurt-effect {
+  animation: hurt 0.4s ease;
+}
+
+.enemy-hurt {
+  animation: hurt 0.4s ease;
+}
+
+@keyframes flash {
+  0% { opacity: 1; color: #ff4d4d; }
+  50% { opacity: 0.5; color: #ff9999; }
+  100% { opacity: 1; color: #ff4d4d; }
+}
+
+.flash-warning {
+  animation: flash 1s infinite;
+  font-weight: bold;
+}
+
+#uzvarasEkrans {
+  width: 400px;
+  height: 400px;
+  background-image: url("https://i.gifer.com/6nOF.gif");
+  background-size: cover;
+  border: 5px solid #757e95;
+  border-radius: 10px;
+  position: fixed;
+  top: 240px;
+  left: 240px;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  padding: 30px;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  font-family: "Bebas Neue", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#uzvarasEkrans h1 {
+  font-size: 38px;
+  margin-bottom: 20px;
+  animation: glow 2s infinite alternate;
+}
+
+#uzvarasEkrans p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.pogaRestart {
+  padding: 10px 20px;
+  font-size: 20px;
+  border: none;
+  background-color: #000000;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.pogaRestart:hover {
+  background-color: #5f5d5d;
+  transform: scale(1.05);
+}
+
+#zaudesanasEkrans {
+  width: 400px;
+  height: 400px;
+  background-image: url("https://i.gifer.com/embedded/download/Tqvv.gif");
+  background-size: cover;
+  border: 5px solid #9b0000;
+  border-radius: 10px;
+  position: fixed;
+  top: 240px;
+  left: 240px;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  padding: 30px;
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+  font-family: "Bebas Neue", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#zaudesanasEkrans h1 {
+  font-size: 38px;
+  margin-bottom: 20px;
+  animation: glowRed 2s infinite alternate;
+}
+
+#zaudesanasEkrans p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+@keyframes glowRed {
+  0% { text-shadow: 0 0 10px #ff0000; }
+  100% { text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000; }
+}
