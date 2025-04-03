@@ -27,14 +27,18 @@ let kaste = document.createElement("div");
 kaste.id = "kaste";
 
 let ieprieksejais = localStorage.getItem("spelesRezultats");
+let rezultatsBox = document.createElement("div");
+rezultatsBox.id = "rezultatsBox";
+
 if (ieprieksejais) {
   let dati = JSON.parse(ieprieksejais);
   let ieprRez = document.createElement("p");
   ieprRez.innerHTML = `📜 Pēdējais rezultāts: ${dati.punkti} punkti, ${dati.dzivibas} dzīvības, ${dati.eliksiri} eliksīri (${dati.datums})`;
   ieprRez.style.fontSize = "14px";
   ieprRez.style.marginTop = "10px";
-  kaste.appendChild(ieprRez);
+  rezultatsBox.appendChild(ieprRez);
 }
+kaste.appendChild(rezultatsBox);
 
 
 let kaste2 = document.createElement("div");
@@ -63,10 +67,10 @@ let pretiniekaATK = 0;
 let speletajaATK = 0;
 let speletajaHP = 100;
 let eliksiri = 5;
-let totemVozrozhdeniya = 0;
+let totemVozrozhdeniya = 5;
 let bossHP = 200;
 let bossATK = 1.5; 
-  
+
 let audio = new Audio("burzum-sol-austan-east-of-the-sun.mp3");
 let playButton = document.createElement("button");
 audio.volume = 0.2;
@@ -108,10 +112,12 @@ function saglabatRezultatu() {
 pogaSakt.addEventListener("click", function(){
 pogaSakt.style.display = "none";
 noteikumi.style.display = "none";
+rezultatsBox.style.display = "none";
 
 function proveritZdorovie() {
   if (speletajaHP <= 0 && totemVozrozhdeniya > 0) {
       speletajaHP = 100;
+      parbauditEliksiraBridinajumu();
       speletajaDzivibas.innerHTML = "Spelētāja dzīvības: " + speletajaHP;
       totemVozrozhdeniya--;
     }
@@ -168,7 +174,7 @@ let speletajaDzivibas = document.createElement("p");
 speletajaDzivibas.id = "speletajaDzivibas";
 speletajaDzivibas.innerHTML = "Spēlētāja dzīvības: " + speletajaHP;
 kaste.appendChild(speletajaDzivibas);
-  
+
 let Eliksiri = document.createElement("p");
 Eliksiri.id = "Eliksiri";
 Eliksiri.innerHTML = "Eliksiri: " + eliksiri;
@@ -185,6 +191,7 @@ kaste.appendChild(Eliksiri);
       speletajaUzbrukums.innerHTML = "Spēlētāja uzbrukums: " + speletajaATK;
       pretiniekaUzbrukums.innerHTML = "Pretinieka uzbrukums: " + pretiniekaATK;
       speletajaHP -= pretiniekaATK;
+      parbauditEliksiraBridinajumu(); 
       pretiniekaHP -= speletajaATK;
       speletajaDzivibas.innerHTML = "Spēlētēja dzīvības: " + speletajaHP;
       speletajaDzivibas.classList.add("hurt-effect");
@@ -192,11 +199,15 @@ kaste.appendChild(Eliksiri);
         speletajaDzivibas.classList.remove("hurt-effect");
       }, 400);
       pretiniekaDzivibas.innerHTML = pretinieki[random] + " dzīvības: " + pretiniekaHP;
+      img.classList.add("enemy-damage-effect");
+      setTimeout(() => {
+        img.classList.remove("enemy-damage-effect");
+      }, 300);
       pretiniekaDzivibas.classList.add("enemy-hurt");
       setTimeout(() => {
         pretiniekaDzivibas.classList.remove("enemy-hurt");
       }, 400);
-      proveritZdorovie();
+
     }
 
     if (speletajaATK > 40) {
@@ -212,7 +223,7 @@ kaste.appendChild(Eliksiri);
       document.body.appendChild(crit);
       setTimeout(() => crit.remove(), 1000);
     }
-    
+
     if(pretiniekaHP < 0){
       pretiniekaHP = 0;
       pretiniekaDzivibas.innerHTML = pretinieki[random] + " dzīvības: " + pretiniekaHP;
@@ -302,6 +313,7 @@ kaste.appendChild(Eliksiri);
     function proveritZdorovie() {
     if (speletajaHP <= 0 && totemVozrozhdeniya > 0) {
       speletajaHP = 100;
+      parbauditEliksiraBridinajumu();
       speletajaDzivibas.innerHTML = "Spēlētāja dzīvības: " + speletajaHP;
       totemVozrozhdeniya--;
       showTotemNotification();
@@ -327,12 +339,27 @@ let pogaM = document.createElement("button");
 pogaM.innerHTML = "M";
 pogaM.id = "pogaM";
 kaste.appendChild(pogaM);  
-  
+
 let pogaE = document.createElement("button");
 pogaE.innerHTML = "E";
 pogaE.id = "pogaE";
 kaste.appendChild(pogaE);
 pogaE.addEventListener("click", function(){
+  let eliksiraEfekts = document.createElement("p");
+  eliksiraEfekts.innerText = "🧪 Eliksīrs izmantots!";
+  eliksiraEfekts.style.position = "fixed";
+  eliksiraEfekts.style.left = "120px";
+  eliksiraEfekts.style.top = "100px";
+  eliksiraEfekts.style.fontSize = "20px";
+  eliksiraEfekts.style.color = "#00ff55";
+  eliksiraEfekts.style.animation = "fadeOut 1.2s ease-out forwards";
+  eliksiraEfekts.style.fontFamily = "Bebas Neue";
+  document.body.appendChild(eliksiraEfekts);
+  setTimeout(() => eliksiraEfekts.remove(), 1200);
+  speletajaDzivibas.classList.add("heal-effect");
+  setTimeout(() => {
+    speletajaDzivibas.classList.remove("heal-effect");
+  }, 600);
   if(eliksiri > 0 && speletajaHP < 100){
   const skaitlis = Math.random();
   if(skaitlis < 0.2){
@@ -341,12 +368,14 @@ pogaE.addEventListener("click", function(){
   } else {
     eliksiri -= 1;
     speletajaHP += 30;
+    parbauditEliksiraBridinajumu();
   }
   speletajaDzivibas.innerHTML = "Spēlētāja dzīvības: " + speletajaHP;
   Eliksiri.innerHTML = "Eliksiri: " + eliksiri;
   }
   if(speletajaHP > 100){
     speletajaHP = 100;
+    parbauditEliksiraBridinajumu();
     speletajaDzivibas.innerHTML = "Spēlētāja dzīvības: " + speletajaHP;
   }
 });  
@@ -392,6 +421,14 @@ let kaste = document.createElement("div");
 kaste.id = "kaste";
 document.body.appendChild(kaste3);
 });  
+
+function parbauditEliksiraBridinajumu() {
+  if (speletajaHP <= 20) {
+    Eliksiri.classList.add("eliksirs-warning");
+  } else {
+    Eliksiri.classList.remove("eliksirs-warning");
+  }
+}
 
 noteikumi.addEventListener("click", function(){
 pogaSakt.style.display = "none";
