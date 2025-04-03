@@ -378,4 +378,3 @@ atpakal.addEventListener("click", function(){
   location.reload();
 });
 });
-
