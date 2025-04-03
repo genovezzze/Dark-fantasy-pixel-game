@@ -187,9 +187,32 @@ kaste.appendChild(Eliksiri);
       speletajaHP -= pretiniekaATK;
       pretiniekaHP -= speletajaATK;
       speletajaDzivibas.innerHTML = "Spēlētēja dzīvības: " + speletajaHP;
+      speletajaDzivibas.classList.add("hurt-effect");
+      setTimeout(() => {
+        speletajaDzivibas.classList.remove("hurt-effect");
+      }, 400);
       pretiniekaDzivibas.innerHTML = pretinieki[random] + " dzīvības: " + pretiniekaHP;
+      pretiniekaDzivibas.classList.add("enemy-hurt");
+      setTimeout(() => {
+        pretiniekaDzivibas.classList.remove("enemy-hurt");
+      }, 400);
       proveritZdorovie();
     }
+
+    if (speletajaATK > 40) {
+      let crit = document.createElement("p");
+      crit.innerHTML = "💥 CRITICAL!";
+      crit.style.position = "fixed";
+      crit.style.left = "140px";
+      crit.style.top = "90px";
+      crit.style.fontSize = "24px";
+      crit.style.color = "red";
+      crit.style.fontFamily = "Bebas Neue";
+      crit.style.animation = "fadeOut 1s ease-out forwards";
+      document.body.appendChild(crit);
+      setTimeout(() => crit.remove(), 1000);
+    }
+    
     if(pretiniekaHP < 0){
       pretiniekaHP = 0;
       pretiniekaDzivibas.innerHTML = pretinieki[random] + " dzīvības: " + pretiniekaHP;
