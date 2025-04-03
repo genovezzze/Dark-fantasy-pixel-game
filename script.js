@@ -63,7 +63,7 @@ let pretiniekaATK = 0;
 let speletajaATK = 0;
 let speletajaHP = 100;
 let eliksiri = 5;
-let totemVozrozhdeniya = 5;
+let totemVozrozhdeniya = 0;
 let bossHP = 200;
 let bossATK = 1.5; 
   
@@ -168,7 +168,7 @@ let speletajaDzivibas = document.createElement("p");
 speletajaDzivibas.id = "speletajaDzivibas";
 speletajaDzivibas.innerHTML = "Spēlētāja dzīvības: " + speletajaHP;
 kaste.appendChild(speletajaDzivibas);
-
+  
 let Eliksiri = document.createElement("p");
 Eliksiri.id = "Eliksiri";
 Eliksiri.innerHTML = "Eliksiri: " + eliksiri;
@@ -233,30 +233,60 @@ kaste.appendChild(Eliksiri);
         }
       }
     }
-    if(pretiniekaHP <= 0 && punkti == 11){
-        saglabatRezultatu();
-        pretiniekaHP = 0;
-        pretiniekaDzivibas.innerHTML = "Boss dzīvības: " + pretiniekaHP;
-        punktiUzraksts.innerHTML = "Punkti: " + punkti;
-        kaste.innerHTML = "";
-        let uzvaraUzraksts = document.createElement("p");
-        uzvaraUzraksts.id = "uzvaraUzraksts"
-        uzvaraUzraksts.innerHTML = "Tu uzvarēji!";
-        kaste.appendChild(uzvaraUzraksts);
-        document.body.appendChild(kaste);
-        let pogaBeigt = document.createElement("button");
-        pogaBeigt.innerHTML = "Beigt";
-        pogaBeigt.id = "pogaBeigt";
-        kaste.appendChild(pogaBeigt);
-        pogaBeigt.addEventListener("click", function(){
-          location.reload();  
-        })
+    if (pretiniekaHP <= 0 && punkti == 11) {
+      saglabatRezultatu();
+      pretiniekaHP = 0;
+      pretiniekaDzivibas.innerHTML = "Boss dzīvības: " + pretiniekaHP;
+      punktiUzraksts.innerHTML = "Punkti: " + punkti;
+      kaste.innerHTML = ""; // Очищаем игровое поле
+
+      // Победный экран
+      let uzvarasEkrans = document.createElement("div");
+      uzvarasEkrans.id = "uzvarasEkrans";
+
+      let virsraksts = document.createElement("h1");
+      virsraksts.innerText = "🎉 Tu uzvarēji! 🎉";
+      uzvarasEkrans.appendChild(virsraksts);
+
+      let apraksts = document.createElement("p");
+      apraksts.innerText = "Tu pieveici visus pretiniekus un iekaroji tumsu!";
+      uzvarasEkrans.appendChild(apraksts);
+
+      let restartPoga = document.createElement("button");
+      restartPoga.innerText = "Spēlēt vēlreiz";
+      restartPoga.classList.add("pogaRestart");
+      restartPoga.addEventListener("click", function () {
+        location.reload();
+      });
+      uzvarasEkrans.appendChild(restartPoga);
+
+      document.body.appendChild(uzvarasEkrans);
     }
-    if(speletajaHP < 0){
+    if (speletajaHP < 0) {
       saglabatRezultatu();
       speletajaHP = 0;
       kaste.style.display = "none";
-      document.body.appendChild(kaste3);
+
+      let zaudesanasEkrans = document.createElement("div");
+      zaudesanasEkrans.id = "zaudesanasEkrans";
+
+      let virsraksts = document.createElement("h1");
+      virsraksts.innerText = "☠️ Tu zaudēji!";
+      zaudesanasEkrans.appendChild(virsraksts);
+
+      let apraksts = document.createElement("p");
+      apraksts.innerText = "Tava dvēsele tika aprīta tumsā...";
+      zaudesanasEkrans.appendChild(apraksts);
+
+      let restartPoga = document.createElement("button");
+      restartPoga.innerText = "Spēlēt vēlreiz";
+      restartPoga.classList.add("pogaRestart");
+      restartPoga.addEventListener("click", function () {
+        location.reload();
+      });
+      zaudesanasEkrans.appendChild(restartPoga);
+
+      document.body.appendChild(zaudesanasEkrans);
     }
 
     function showTotemNotification() {
@@ -378,3 +408,4 @@ atpakal.addEventListener("click", function(){
   location.reload();
 });
 });
+
