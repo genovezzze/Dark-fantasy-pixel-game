@@ -1,3 +1,28 @@
+let intro = document.createElement("div");
+intro.id = "introEkrans";
+
+let introTitle = document.createElement("h1");
+introTitle.innerText = "Dark Fantasy Pixel Game";
+
+let introTeksts = document.createElement("p");
+introTeksts.innerText = "";
+
+let pogaTurpinat = document.createElement("button");
+pogaTurpinat.id = "pogaTurpinat";
+pogaTurpinat.innerText = "Turpināt";
+
+intro.appendChild(introTitle);
+intro.appendChild(introTeksts);
+intro.appendChild(pogaTurpinat);
+document.body.appendChild(intro);
+
+pogaTurpinat.addEventListener("click", function(){
+  intro.style.display = "none"; 
+  kaste.style.display = "block"; 
+});
+
+
+
 let kaste = document.createElement("div");
 kaste.id = "kaste";
 
