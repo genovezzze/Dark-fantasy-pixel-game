@@ -125,7 +125,10 @@ function proveritZdorovie() {
 
 if (punkti >= 10) {
   random = 10; 
-  img.src = pretiniekiAtteli[random];
+  img.classList.add("enemy-spawn");
+  setTimeout(() => {
+    img.classList.remove("enemy-spawn");
+  }, 500);
   pretiniekaHP = 200; 
   pretiniekiUzraksts.innerHTML = " Wild " + pretinieki[random] + " parādījās!"
 }
@@ -273,6 +276,7 @@ kaste.appendChild(Eliksiri);
 
       document.body.appendChild(uzvarasEkrans);
     }
+    proveritZdorovie();
     if (speletajaHP < 0) {
       saglabatRezultatu();
       speletajaHP = 0;
@@ -443,6 +447,17 @@ kaste.appendChild(atpakal);
 
 atpakal.addEventListener("click", function(){
   location.reload();
+
+function proveritZdorovie() {
+  if (speletajaHP <= 0 && totemVozrozhdeniya > 0) {
+    speletajaHP = 100;
+    parbauditEliksiraBridinajumu();
+    speletajaDzivibas.innerHTML = "Spēlētāja dzīvības: " + speletajaHP;
+    totemVozrozhdeniya--;
+    showTotemNotification();
+  }
+}
+  
 });
 });
 
