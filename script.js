@@ -162,7 +162,7 @@ img.onload = function(){
   ctx.clearRect(0,0,200,150);
   ctx.drawImage(img, 0,25, 150,100)
 }
-
+  
 let pretiniekaUzbrukums = document.createElement("p");
 pretiniekaUzbrukums.id = "pretiniekaUzbrukums";
 pretiniekaUzbrukums.innerHTML = "Pretinieka uzbrukums: " + pretiniekaATK;
@@ -232,6 +232,10 @@ kaste.appendChild(Eliksiri);
       pretiniekaDzivibas.innerHTML = pretinieki[random] + " dzīvības: " + pretiniekaHP;
       punkti += 1;
       punktiUzraksts.innerHTML = "Punkti: " + punkti;
+      punktiUzraksts.classList.add("score-flash");
+      setTimeout(() => {
+        punktiUzraksts.classList.remove("score-flash");
+      }, 500);
 
       if (punkti === 10) {
         pretiniekiUzraksts.innerHTML = "Broodmother parādījās!";
@@ -344,6 +348,19 @@ pogaM.innerHTML = "M";
 pogaM.id = "pogaM";
 kaste.appendChild(pogaM);  
 
+speletajaUzbrukums.classList.add("atk-effect");
+setTimeout(() => {
+  speletajaUzbrukums.classList.remove("atk-effect");
+}, 400);
+
+  
+if (pretiniekaATK > 35) {
+  pretiniekaUzbrukums.classList.add("danger-effect");
+  setTimeout(() => {
+    pretiniekaUzbrukums.classList.remove("danger-effect");
+  }, 600);
+}
+  
 let pogaE = document.createElement("button");
 pogaE.innerHTML = "E";
 pogaE.id = "pogaE";
@@ -434,6 +451,20 @@ function parbauditEliksiraBridinajumu() {
   }
 }
 
+let damagePopup = document.createElement("p");
+damagePopup.innerText = `-${speletajaATK}`;
+damagePopup.style = `
+  position: fixed;
+  left: 160px;
+  top: 90px;
+  font-size: 18px;
+  font-family: 'Bebas Neue';
+  color: red;
+  animation: fadeOut 1s ease-out forwards;
+`;
+document.body.appendChild(damagePopup);
+setTimeout(() => damagePopup.remove(), 1000);
+
 noteikumi.addEventListener("click", function(){
 pogaSakt.style.display = "none";
 noteikumi.style.display = 'none';
@@ -457,7 +488,7 @@ function proveritZdorovie() {
     showTotemNotification();
   }
 }
-  
+
 });
 });
 
