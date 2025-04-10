@@ -11,6 +11,17 @@ let pogaTurpinat = document.createElement("button");
 pogaTurpinat.id = "pogaTurpinat";
 pogaTurpinat.innerText = "Turpināt";
 
+function showFloatingText(text, color, x = 160, y = 100) {
+  const floatText = document.createElement("div");
+  floatText.classList.add("floating-text");
+  floatText.innerText = text;
+  floatText.style.left = x + "px";
+  floatText.style.top = y + "px";
+  floatText.style.color = color;
+  document.body.appendChild(floatText);
+  setTimeout(() => floatText.remove(), 1000);
+}
+
 intro.appendChild(introTitle);
 intro.appendChild(introTeksts);
 intro.appendChild(pogaTurpinat);
@@ -196,6 +207,7 @@ kaste.appendChild(Eliksiri);
       speletajaHP -= pretiniekaATK;
       parbauditEliksiraBridinajumu(); 
       pretiniekaHP -= speletajaATK;
+      showFloatingText("-" + speletajaATK, "red", 180, 140);
       speletajaDzivibas.innerHTML = "Spēlētēja dzīvības: " + speletajaHP;
       speletajaDzivibas.classList.add("hurt-effect");
       setTimeout(() => {
@@ -253,6 +265,12 @@ kaste.appendChild(Eliksiri);
     }
     if (pretiniekaHP <= 0 && punkti == 11) {
       saglabatRezultatu();
+      function raditDeathFlash() {
+        const flash = document.createElement("div");
+        flash.classList.add("death-flash");
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 500);
+      }
       pretiniekaHP = 0;
       pretiniekaDzivibas.innerHTML = "Boss dzīvības: " + pretiniekaHP;
       punktiUzraksts.innerHTML = "Punkti: " + punkti;
@@ -475,7 +493,7 @@ let atpakal = document.createElement("button");
 atpakal.id = "atpakal";
 atpakal.innerHTML = "Atpakaļ";
 kaste.appendChild(atpakal);
-
+  
 atpakal.addEventListener("click", function(){
   location.reload();
 
